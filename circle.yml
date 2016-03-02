@@ -1,0 +1,14 @@
+machine:
+    python:
+        version: 3.5.0
+dependencies:
+    override:
+        - pip install 'Sphinx==1.3.6'
+test:
+    override:
+        - make html
+deployment:
+    tinkerer:
+        branch: master
+        commands:
+            - deploy/production.sh
