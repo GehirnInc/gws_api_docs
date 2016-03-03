@@ -1,8 +1,9 @@
-
+{# vim:set filetype=css: -#}
 /* -- page layout ----------------------------------------------------------- */
 
 input, select {
-  vertical-align: middle; }
+  vertical-align: middle;
+}
 
 body {
     font-family: 'Arial','Helvetica','Hiragino Kaku Gothic Pro', 'ヒラギノ角ゴ Pro W3', 'メイリオ', 'Meiryo', 'ＭＳ Ｐゴシック', 'Lucida Grande', 'Lucida Sans Unicode', 'Verdana', 'sans-serif';
@@ -55,9 +56,8 @@ body {
 #navigation {
    position: relative;
    top:70px;
-   right: 0;
-   left: 250px;
    height: 50px;
+   margin: 0 0 0 250px;
    line-height: 50px;
    z-index: 100000;
    background: #fff;
