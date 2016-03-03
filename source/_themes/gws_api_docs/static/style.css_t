@@ -107,8 +107,8 @@ div.document {
 
 div.documentwrapper {
     position: absolute;
-    padding: 51px 0 0 0;
-    top: 0;
+    padding:0;
+    top: 51px;
     bottom: 0;
     right: 0;
     left: 250px;
