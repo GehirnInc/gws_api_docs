@@ -1,0 +1,117 @@
+{# vim:set filetype=htmljinja shiftwidth=2: -#}
+{#
+    basic/sourcelink.html
+    ~~~~~~~~~~~~~~~~~~~~~
+
+    Sphinx sidebar template: "show source" link.
+
+    :copyright: Copyright 2007-2016 by the Sphinx team, see AUTHORS.
+    :license: BSD, see LICENSE for details.
+#}
+{%- set render_sidebar = (not embedded) and (not theme_nosidebar|tobool) and
+                         (sidebars != []) %}
+{%- set url_root = pathto('', 1) %}
+{%- if url_root == '#' %}{% set url_root = '' %}{% endif %}
+{%- if not embedded and docstitle %}
+  {%- set titlesuffix = " &mdash; "|safe + docstitle|e %}
+{%- else %}
+  {%- set titlesuffix = "" %}
+{%- endif -%}
+
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+    <title>{{ title|striptags|e }}{{ titlesuffix }}</title>
+    <link rel="stylesheet" href="{{ pathto('_static/' + style, 1) }}" type="text/css" />
+    <link rel="stylesheet" href="{{ pathto('_static/pygments.css', 1) }}" type="text/css" />
+    {%- for cssfile in css_files %}
+    <link rel="stylesheet" href="{{ pathto(cssfile, 1) }}" type="text/css" />
+    {%- endfor %}
+    {%- if not embedded %}
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '{{ url_root }}',
+        VERSION:     '{{ release|e }}',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '{{ '' if no_search_suffix else file_suffix }}',
+        HAS_SOURCE:  {{ has_source|lower }}
+      };
+    </script>
+    {%- for scriptfile in script_files %}
+    <script type="text/javascript" src="{{ pathto(scriptfile, 1) }}"></script>
+    {%- endfor %}
+    {%- if favicon %}
+    <link rel="shortcut icon" href="{{ pathto('_static/' + favicon, 1) }}"/>
+    {%- endif %}
+    {%- endif %}
+
+    <link rel="top" title="{{ docstitle|e }}" href="{{ pathto(master_doc) }}" />
+    {%- if parents %}
+    <link rel="up" title="{{ parents[-1].title|striptags|e }}" href="{{ parents[-1].link|e }}" />
+    {%- endif %}
+    {%- if next %}
+    <link rel="next" title="{{ next.title|striptags|e }}" href="{{ next.link|e }}" />
+    {%- endif %}
+    {%- if prev %}
+    <link rel="prev" title="{{ prev.title|striptags|e }}" href="{{ prev.link|e }}" />
+    {%- endif %}
+  </head>
+  <body role="document">
+    <div id="header">
+      <div class="logo-area">
+        <img src="{{ pathto('_static/apilogo.png', 1) }}" alt="API Logo">
+      </div>
+      <div class="hd-menu">
+        <ul>
+          <li><a href="https://support.gehirn.jp">サポートサイト</a></li>
+          <li><a href="https://www.gehirn.jp">サービスサイト</a></li>
+          <li><a href="https://gic.gehirn.jp">Gehirn ID Center（ログイン）</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div id="navigation">
+      <ul>
+        <li><a href="{{ pathto(master_doc) }}">Docs</a></li>
+        {%- for doc in parents %}
+        <li><a href="{{ doc.link|e }}">{{ doc.title }}</a></li>
+        {%- endfor %}
+        <li>{{ title }}</li>
+      </ul>
+    </div>
+
+    {%- block content %}
+    <div class="document">
+      {%- block document %}
+      <div class="documentwrapper">
+        {%- if render_sidebar %}
+        <div class="bodywrapper">
+        {%- endif %}
+          <div class="body" role="main">
+            {% block body %} {% endblock %}
+          </div>
+        {%- if render_sidebar %}
+        </div>
+        {%- endif %}
+      </div>
+      {%- endblock %}
+
+      {%- if render_sidebar %}
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+          {%- for sidebartemplate in sidebars %}
+          {%- include sidebartemplate %}
+          {%- endfor %}
+        </div>
+      </div>
+      {%- endif %}
+      <div class="clearer"></div>
+    </div>
+    {%- endblock %}
+
+    {%- block footer %}
+    {%- endblock %}
+  </body>
+</html>
