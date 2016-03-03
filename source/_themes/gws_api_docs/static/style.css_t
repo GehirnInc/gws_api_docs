@@ -697,14 +697,14 @@ table.docutils.citation, table.docutils.citation td, table.docutils.citation th 
   box-shadow: none;
 }
 
-.toctree-wrapper a {
+.toctree-wrapper ul li a {
    display: block;
    width: 100%;
    padding: 4px 3px;
    text-decoration: none;
 }
 
-.toctree-wrapper a:hover {
+.toctree-wrapper ul li a:hover {
    background: #f8f8f8;
 
 }
