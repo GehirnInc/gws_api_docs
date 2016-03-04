@@ -18,7 +18,7 @@ Sphinx は Python Package Index で配布されているため、 Python 標準�
 
    pip install sphinx
 
-`GehirnInc/gws_api_docs`_ は Sphinx が提供する Makefile を含んでいるため、 Sphinx をインストールした環境のルートディレクトリへ移動し、以下に示す ``make`` コマンドを実行することで、静的な HTML を出力することができます。
+`GehirnInc/gws_api_docs`_ は Sphinx が提供する Makefile を含んでいるため、 Sphinx をインストールした環境にクローンした `GehirnInc/gws_api_docs`_ のルートディレクトリへ移動し、以下に示す ``make`` コマンドを実行することで、静的な HTML を出力することができます。
 
 .. code-block:: shell
 
@@ -58,10 +58,10 @@ Pull Request を作成する
 ご注意
 ------
 
-* このドキュメントでカバーする内容は `Gehirn Web Services`_ とその各追加サービスで提供する **Web API のご利用方法** に限ります。
+* このドキュメントでカバーする内容は `Gehirn Web Services`_ とその各追加サービスで提供する **Web API のご利用方法に限り**\ ます。
 
   * サービスの機能や価格などについては、 `Gehirn Web Services サービスサイト <Gehirn Web Services_>`_ をご参照ください。
-  * サービス自体のご利用方法については、 `Gehirn Support Center`_ をご参照ください。
+  * コントロールパネルのご利用方法については、 `Gehirn Support Center`_ をご参照ください。
 
 * Issues_ 及び `Pull Requests`_ でご報告いただける内容は `Gehirn Web Services API Documentation`_ に存在する不備に限ります。
 
@@ -76,7 +76,7 @@ Pull Request を作成する
 .. _Gehirn Infrastructure Services: https://gis.gehirn.jp/
 .. _Gehirn ID Center: https://gic.gehirn.jp/
 
-.. _Gehirn Web Services API Documentation: #
+.. _Gehirn Web Services API Documentation: https://support.gehirn.jp/apidocs/
 .. _Gehirn Support Center:  https://support.gehirn.jp/
 .. _お問い合わせ: https://support.gehirn.jp/contact/
 
