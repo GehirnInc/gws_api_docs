@@ -2,7 +2,7 @@ Gehirn Web Services API Documentation
 =====================================
 
 このリポジトリでは、 `Gehirn Web Services API Documentation`_ を構成するすべてのコンテンツを管理しています。
-Gehirn Web Services API Documentation は、\ `ゲヒルン株式会社`_\ が運営する\ `Gehirn Web Services`_ と、 `Gehirn Infrastructure Services`_ をはじめとする各追加サービスで提供する Web API のご利用方法を説明するドキュメントです。
+Gehirn Web Services API Documentation は、\ `ゲヒルン株式会社`_\ が運営する\ `Gehirn Web Services`_ とその各追加サービスで提供する Web API のご利用方法を説明するドキュメントです。
 
 
 ビルド方法
@@ -73,8 +73,7 @@ Pull Request を作成する
 
 .. _ゲヒルン株式会社: http://www.gehirn.co.jp/
 .. _Gehirn Web Services: https://www.gehirn.jp/
-.. _Gehirn Infrastructure Services: https://gis.gehirn.jp/
-.. _Gehirn ID Center: https://gic.gehirn.jp/
+.. _Gehirn ID Center: https://id.gehirn.jp/
 
 .. _Gehirn Web Services API Documentation: https://support.gehirn.jp/apidocs/
 .. _Gehirn Support Center:  https://support.gehirn.jp/
