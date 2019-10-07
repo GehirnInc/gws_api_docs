@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-LOGIN_NAME="yosida95"
-HOSTNAME="a761dfca-7dac-4b96-86ff-6b6d333d64d9.gehirn.ne.jp"
-PORT=22348
+LOGIN_NAME="rs2p"
+HOSTNAME="s9.rs2plus.gehirn.ne.jp"
+PORT=22311
 TARGET="/var/www/support.gehirn.jp/apidocs/"
 
 ROOT=$(cd "$(dirname "$0")"; cd ../; pwd)
