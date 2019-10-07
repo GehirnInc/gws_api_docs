@@ -1,0 +1,64 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/python:3.7
+    steps:
+      - checkout: {}
+      - restore_cache:
+          key: build-py37-{{ checksum "requirements.txt" }}
+      - run:
+          command: |
+            if [ ! -d ".venv" ]; then
+              python -m venv ./.venv
+            fi
+            . ./.venv/bin/activate
+            pip install --upgrade pip
+            pip install -r requirements.txt
+      - save_cache:
+          key: build-py37-{{ checksum "requirements.txt" }}
+          paths:
+            - ".venv"
+      - run:
+          command: |
+            . ./.venv/bin/activate
+            make html
+      - persist_to_workspace:
+          root: .
+          paths:
+            - ./build/html/
+            - ./deploy/
+  deploy:
+    docker:
+      - image: circleci/buildpack-deps:buster
+    steps:
+      - run:
+          name: Install rsync
+          command: |
+            sudo apt-get update
+            sudo apt-get install -yqq rsync
+      - run:
+          name: Install a key to known_hosts
+          command: |
+            mkdir -p ~/.ssh
+            cat << EOF >> ~/.ssh/known_hosts
+            [s9.rs2plus.gehirn.ne.jp]:22311,[153.127.109.65]:22311 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGh08oN+BTakK+pFUgZPI9lj1mb8vSuNtl7RmTf/KUmoNYeI/y54HvNMHaWNuy4/Zco3zFctBkZIk4FxPFrVDR4=
+            EOF
+      - attach_workspace:
+          at: .
+      - run:
+          name: Deploy to the stage environment
+          command: |
+            ./deploy/production.sh
+workflows:
+  version: 2
+  build_and_deploy:
+    jobs:
+      - build: {}
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - master
