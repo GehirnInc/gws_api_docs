@@ -1,3 +1,6 @@
+.. include:: ../definitions.rst
+
+
 Gehirn DNS
 ==========
 
@@ -15,6 +18,3 @@ Gehirn DNS の特徴やご利用料金などについては `Gehirn DNS サー�
    versions
    records
    presets
-
-.. _Gehirn DNS: https://www.gehirn.jp/dns/
-.. _ゲヒルン: http://www.gehirn.co.jp/

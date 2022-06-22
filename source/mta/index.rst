@@ -1,3 +1,6 @@
+.. include:: ../definitions.rst
+
+
 Gehirn MTA
 ==========
 
@@ -187,6 +190,3 @@ Sender と From について
 このため、 From に複数のメール作成者を指定した場合は、 DMARC の設定内容によってはメール送信先で受け取りを拒否されたり検疫されたりする場合があります。
 
 したがって、現在では From に単一のメール作成者を指定することを推奨します。
-
-
-.. _Gehirn MTA: https://www.gehirn.jp/mta/

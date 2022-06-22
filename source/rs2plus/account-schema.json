@@ -1,0 +1,77 @@
+{
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 36,
+      "maxLength": 36
+    },
+    "label": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255
+    },
+    "hostname": {
+      "type": "string",
+      "format": "hostname"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "ipv4_address": {
+      "type": "string",
+      "format": "ipv4"
+    },
+    "ssh_port": {
+      "type": "integer"
+    },
+    "snapshot_interval_in_minute": {
+      "type": "integer",
+      "minimum": 60
+    },
+    "snapshot_archive_interval": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "snapshot_archive_generation": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "plan": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "cpu_count": {
+          "type": "integer"
+        },
+        "memory_in_bytes": {
+          "type": "integer"
+        },
+        "disk_size_in_gb": {
+          "type": "integer"
+        },
+        "max_snapshot_count": {
+          "type": "integer"
+        }
+      }
+    },
+    "hostserver": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "hostname": {
+          "type": "string",
+          "format": "hostname"
+        }
+      }
+    }
+  }
+}

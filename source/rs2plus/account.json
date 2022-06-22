@@ -1,0 +1,23 @@
+{
+  "id": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX",
+  "label": "はじめての Gehirn RS2 Plus アカウント",
+  "hostname": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX.gehirn.ne.jp",
+  "created_at": "2015-04-01T09:00:00Z",
+  "ipv4_address": "10.0.3.10",
+  "ssh_port": 22310,
+  "snapshot_interval_in_minute": 480,
+  "snapshot_archive_interval": 0,
+  "snapshot_archive_generation": 0,
+  "plan": {
+    "id": "7fd8de64-452d-4861-a4ef-d34562c9cdec",
+    "name": "Gehirn RS2 Plus スタンダード",
+    "cpu_count": 1,
+    "memory_in_bytes": 2147483648,
+    "disk_size_in_gb": 50,
+    "max_snapshot_count": 12
+  },
+  "hostserver": {
+    "id": "YYYYYYYY-YYYY-YYYY-YYYY-YYYYYYYYYYYY",
+    "hostname": "sX.rs2plus.gehirn.ne.jp"
+  }
+}
