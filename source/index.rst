@@ -13,7 +13,7 @@ Gehirn Web Services API Documentation
    :maxdepth: 1
    :caption: 目次
 
-   gis/index
+   dns/index
 
 Indices and tables
 ==================

@@ -16,5 +16,5 @@ Gehirn DNS の特徴やご利用料金などについては `Gehirn DNS サー�
    records
    presets
 
-.. _Gehirn DNS: https://www.gehirn.jp/gis/dns.html
+.. _Gehirn DNS: https://www.gehirn.jp/dns/
 .. _ゲヒルン: http://www.gehirn.co.jp/
