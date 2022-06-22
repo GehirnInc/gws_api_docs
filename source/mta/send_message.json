@@ -1,0 +1,104 @@
+{
+  "definitions": {
+    "mailbox-list": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "email"
+      },
+      "mimItems": 1
+    }
+  },
+  "type": "object",
+  "required": [
+    "procedure",
+    "arguments"
+  ],
+  "properties": {
+    "procedure": {
+      "const": "send_message"
+    },
+    "arguments": {
+      "type": "object",
+      "required": [
+        "self",
+        "subject",
+        "content_type",
+        "body"
+      ],
+      "properties": {
+        "self": {
+          "type": "string",
+          "pattern": "^https://api\\.gis\\.gehirn\\.jp/mta/v1/domains/[^/]+$"
+        },
+        "from": { "$ref": "#/definitions/mailbox-list" },
+        "sender": {
+          "type": "string",
+          "format": "email"
+        },
+        "to": { "$ref": "#/definitions/mailbox-list" },
+        "cc": { "$ref": "#/definitions/mailbox-list" },
+        "bcc": { "$ref": "#/definitions/mailbox-list" },
+        "subject": {
+          "type": "string"
+        },
+        "content_type": {
+          "type": "string",
+          "oneOf": [
+            { "pattern": "^text/.*$" },
+            { "pattern": "^multipart/.*$" }
+          ]
+        },
+        "body": {
+          "type": "string"
+        },
+        "attachments": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "content_type",
+              "content"
+            ],
+            "properties": {
+              "filename": {
+                "type": "string"
+              },
+              "content_type": {
+                "type": "string",
+                "minLength": 1
+              },
+              "content": {
+                "type": "string",
+                "contentEncoding": "base64"
+              }
+            }
+          },
+          "mimItems": 0
+        }
+      },
+      "allOf": [
+        {
+          "anyOf": [
+            { "required": [ "to" ] },
+            { "required": [ "cc" ] },
+            { "required": [ "bcc" ] }
+          ]
+        },
+        {
+          "anyOf": [
+            {
+              "required": [ "sender" ]
+            },
+            {
+              "properties": {
+                "from": { "maxItems": 1 }
+              },
+              "required": [ "from" ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

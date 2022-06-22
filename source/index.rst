@@ -10,10 +10,11 @@ Gehirn Web Services API Documentation
 .. _`GehirnInc/gws_api_docs`: https://github.com/GehirnInc/gws_api_docs
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
    :caption: 目次
 
    dns/index
+   mta/index
 
 Indices and tables
 ==================
