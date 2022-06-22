@@ -1,6 +1,8 @@
 .. include:: ../definitions.rst
 
 
+.. _title:
+
 Gehirn RS2 Plus
 ===============
 
@@ -9,9 +11,8 @@ Gehirn RS2 Plus
 Gehirn RS2 Plus は、\ `ゲヒルン`_\ が次世代のレンタルサーバーサービスとして提供するマネージドホスティングサービスです。
 Gehirn RS2 Plus の特徴やご利用料金などについては `Gehirn RS2 Plus サービスページ <Gehirn RS2 Plus_>`_ をご覧ください。
 
-.. rubric:: 目次
-
 .. toctree::
    :maxdepth: 2
+   :caption: 目次
 
    accounts

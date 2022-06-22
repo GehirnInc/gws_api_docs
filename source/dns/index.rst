@@ -1,6 +1,8 @@
 .. include:: ../definitions.rst
 
 
+.. _title:
+
 Gehirn DNS
 ==========
 
@@ -9,10 +11,10 @@ Gehirn DNS
 Gehirn DNS は、\ `ゲヒルン`_\ が提供する高機能な DNS ホスティングサービスです。
 Gehirn DNS の特徴やご利用料金などについては `Gehirn DNS サービスページ <Gehirn DNS_>`_ をご覧ください。
 
-.. rubric:: 目次
 
 .. toctree::
    :maxdepth: 2
+   :caption:: 目次
 
    zones
    versions

@@ -1,5 +1,6 @@
 .. include:: ../definitions.rst
 
+.. _title:
 
 Gehirn MTA
 ==========
@@ -10,18 +11,24 @@ Gehirn MTA
    :depth: 3
    :backlinks: none
 
+
+.. _send_message:
+
 メッセージ送信
 --------------
 
+.. _send-message-request:
+
 HTTP リクエスト
 ~~~~~~~~~~~~~~~
-
 
 .. code-block:: http
 
    POST /mta/v1/tasks?is_sync=true HTTP/1.1
    Host: api.gis.gehirn.jp
    Content-Type: application/json
+
+.. _send_message-request-body:
 
 リクエストボディ
 """"""""""""""""
@@ -36,9 +43,11 @@ HTTP リクエスト
 .procedure                             string    ``send_message`` 固定
 .arguments.self                        string    メール送信元 Gehirn MTA ドメインの URL ``https://api.gis.gehirn.jp/mta/v1/domains/:domain_id``
 .arguments.from                        []string  メール作成者のリスト（ |mailbox-list|_ 形式）
-                                                 :ref:`Sender と From について` もあわせて参照してください。
+
+                                                 :ref:`sender-and-from` もあわせて参照してください。
 .arguments.sender                      string    メール送信者（|mailbox|_ 形式）
-                                                 :ref:`Sender と From について` もあわせて参照してください。
+
+                                                 :ref:`sender-and-from` もあわせて参照してください。
 .arguments.to                          []string  :mailheader:`To` 送信先のリスト（ |mailbox-list|_ 形式）
 .arguments.cc                          []string  :mailheader:`Cc` 送信先のリスト（ |mailbox-list|_ 形式）
 .arguments.bcc                         []string  :mailheader:`Bcc` 送信先のリスト（ |mailbox-list|_ 形式）
@@ -62,9 +71,12 @@ HTTP リクエスト
 .. |mailbox-list| replace:: RFC 5322 mailbox
 .. _mailbox-list: https://datatracker.ietf.org/doc/html/rfc5322.html#section-3.4
 
+.. _send_message-code-examples:
 
 コード例
 ~~~~~~~~
+
+.. _send_message-code-text-plain:
 
 text/plain
 """"""""""
@@ -116,6 +128,7 @@ text/plain
    }
    EOF
 
+.. _send_message-code-multipart-alternative:
 
 multipart/alternative
 """""""""""""""""""""
@@ -172,13 +185,15 @@ multipart/alternative
    EOF
 
 
+.. _sender-and-from:
+
 Sender と From について
 -----------------------
 
 :rfc:`RFC 5322 <5322#section-3.6.2>` ではメールの作成者を示す From を連名で複数指定することが許されています。
 このとき、実際に送信を担当した人またはシステムを Sender として示すことが求められています。
 
-このため、 Gehirn MTA の :ref:`send_message <メッセージ送信>` API では次の条件を満たすことを求めています。
+このため、 Gehirn MTA の :ref:`send_message` API では次の条件を満たすことを求めています。
 
 * ``.arguments.from[]`` にメール作成者がひとつのみ指定されている
 
