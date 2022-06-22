@@ -14,7 +14,7 @@ Gehirn DNS の特徴やご利用料金などについては `Gehirn DNS サー�
 
 .. toctree::
    :maxdepth: 2
-   :caption:: 目次
+   :caption: 目次
 
    zones
    versions
