@@ -1,27 +1,19 @@
-version: 2
+---
+version: 2.1
+orbs:
+  python: circleci/python@1.4.0
 jobs:
   build:
-    docker:
-      - image: circleci/python:3.7
+    executor:
+      name: python/default
+      tag: "3.10"
     steps:
       - checkout: {}
-      - restore_cache:
-          key: build-py37-{{ checksum "requirements.txt" }}
+      - python/install-packages:
+          pkg-manager: pip
+          pip-dependency-file: requirements.txt
       - run:
           command: |
-            if [ ! -d ".venv" ]; then
-              python -m venv ./.venv
-            fi
-            . ./.venv/bin/activate
-            pip install --upgrade pip
-            pip install -r requirements.txt
-      - save_cache:
-          key: build-py37-{{ checksum "requirements.txt" }}
-          paths:
-            - ".venv"
-      - run:
-          command: |
-            . ./.venv/bin/activate
             make html
       - persist_to_workspace:
           root: .
@@ -30,18 +22,18 @@ jobs:
             - ./deploy/
   deploy:
     docker:
-      - image: circleci/buildpack-deps:buster
+      - image: cimg/base:stable-20.04
     steps:
       - run:
           name: Install rsync
           command: |
             sudo apt-get update
-            sudo apt-get install -yqq rsync
+            sudo apt-get install --assume-yes rsync
       - run:
           name: Install a key to known_hosts
           command: |
             mkdir -p ~/.ssh
-            cat << EOF >> ~/.ssh/known_hosts
+            cat \<< EOF >> ~/.ssh/known_hosts
             [s9.rs2plus.gehirn.ne.jp]:22311,[153.127.109.65]:22311 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGh08oN+BTakK+pFUgZPI9lj1mb8vSuNtl7RmTf/KUmoNYeI/y54HvNMHaWNuy4/Zco3zFctBkZIk4FxPFrVDR4=
             EOF
       - attach_workspace:
