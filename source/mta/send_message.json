@@ -49,6 +49,15 @@
             { "pattern": "^multipart/.*$" }
           ]
         },
+        "additional_header": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
         "body": {
           "type": "string"
         },

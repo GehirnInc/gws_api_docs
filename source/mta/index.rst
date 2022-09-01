@@ -37,39 +37,68 @@ HTTP リクエスト
     :language: json
 
 
-=====================================  ========  ====
-プロパティ                             型        説明
-=====================================  ========  ====
-.procedure                             string    ``send_message`` 固定
-.arguments.self                        string    メール送信元 Gehirn MTA ドメインの URL ``https://api.gis.gehirn.jp/mta/v1/domains/:domain_id``
-.arguments.from                        []string  メール作成者のリスト（ |mailbox-list|_ 形式）
+.. table:: リクエストプロパティ
+   :align: left
 
-                                                 :ref:`sender-and-from` もあわせて参照してください。
-.arguments.sender                      string    メール送信者（|mailbox|_ 形式）
+   =====================================  ========================  ====
+   プロパティ                             型                        説明
+   =====================================  ========================  ====
+   .procedure                             string                    ``send_message`` 固定
+   .arguments.self                        string                    メール送信元 Gehirn MTA ドメインの URL ``https://api.gis.gehirn.jp/mta/v1/domains/:domain_id``
+   .arguments.from                        []string                  メール作成者のリスト（ |mailbox-list|_ 形式）
 
-                                                 :ref:`sender-and-from` もあわせて参照してください。
-.arguments.to                          []string  :mailheader:`To` 送信先のリスト（ |mailbox-list|_ 形式）
-.arguments.cc                          []string  :mailheader:`Cc` 送信先のリスト（ |mailbox-list|_ 形式）
-.arguments.bcc                         []string  :mailheader:`Bcc` 送信先のリスト（ |mailbox-list|_ 形式）
-.arguments.subject                     string    メールサブジェクト (UTF-8)
-.arguments.content_type                string    メール本文の :mailheader:`Content-Type`
-                                                 * text/*
-                                                 * multipart/*
-.arguments.body                        string    メール本文
-.arguments.attacuments[]               []object  添付ファイルのリスト
+                                                                    :ref:`sender-and-from` もあわせて参照してください。
+   .arguments.sender                      string                    メール送信者（|mailbox|_ 形式）
 
-                                                 .arguments.content_type = text/\* のときのみ使用できます。
-                                                 multipart/* の場合は .arguments.body に直接エンコーディングしてください。
-.arguments.attacuments[].filename      string    添付ファイルのファイル名
-.arguments.attacuments[].content_type  string    添付ファイルの :mailheader:`Content-Type`
-.arguments.attacuments[].content       string    添付ファイル (Base64)
-=====================================  ========  ====
+                                                                    :ref:`sender-and-from` もあわせて参照してください。
+   .arguments.to                          []string                  :mailheader:`To` 送信先のリスト（ |mailbox-list|_ 形式）
+   .arguments.cc                          []string                  :mailheader:`Cc` 送信先のリスト（ |mailbox-list|_ 形式）
+   .arguments.bcc                         []string                  :mailheader:`Bcc` 送信先のリスト（ |mailbox-list|_ 形式）
+   .arguments.subject                     string                    メールサブジェクト (UTF-8)
+   .arguments.content_type                string                    メール本文の :mailheader:`Content-Type`
+
+                                                                    * text/*
+                                                                    * multipart/*
+
+   .arguments.additional_header           object<string, []string>  追加のヘッダーフィールド。
+
+                                                                    任意の |optional-field|_ を指定できますが、一部のフィールドは Gehirn MTA により上書きされる場合があります。
+
+                                                                    フィールドネームを含む 1 行の長さが MIME_ の制限 998 オクテットを超える場合は適宜 |FWS|_ を挿入してください。
+
+                                                                    ``obs-unstruct`` 及び ``obs-FWS`` は利用できません。
+   .arguments.body                        string                    メール本文
+
+                                                                    改行コードは ``CRLF`` に正規化されます。
+
+                                                                    ``.arguments.content_type`` が text/\* の場合は自動的に Content-Transfer-Encoding の変換が行われます。
+                                                                    また ``.arguments.attachments`` の指定がある場合は自動的に ``multipart/mixed`` 形式に変換されます。
+                                                                    有効な UTF-8 の文字列を指定してください。
+
+                                                                    ``.arguments.content_type`` が multipart/\* の場合は改行コードの正規化を除き、自動的な変換は行われません。
+                                                                    事前に必要な変換を施した ASCII 文字列を指定してください。
+   .arguments.attacuments[]               []object                  添付ファイルのリスト
+
+                                                                    ``.arguments.content_type`` がtext/\* のときのみ使用できます。
+                                                                    multipart/* の場合は .arguments.body に直接エンコーディングしてください。
+   .arguments.attacuments[].filename      string                    添付ファイルのファイル名
+   .arguments.attacuments[].content_type  string                    添付ファイルの :mailheader:`Content-Type`
+   .arguments.attacuments[].content       string                    添付ファイル (Base64)
+   =====================================  ========================  ====
+
+.. |FWS| replace:: RFC 5322 FWS
+.. _FWS: https://datatracker.ietf.org/doc/html/rfc5322#section-3.2.2
 
 .. |mailbox| replace:: RFC 5322 mailbox
 .. _mailbox: https://datatracker.ietf.org/doc/html/rfc5322.html#section-3.4
 
 .. |mailbox-list| replace:: RFC 5322 mailbox
 .. _mailbox-list: https://datatracker.ietf.org/doc/html/rfc5322.html#section-3.4
+
+.. |optional-field| replace:: RFC 5322 optional-field
+.. _optional-field: https://datatracker.ietf.org/doc/html/rfc5322#section-3.6.8
+
+.. _MIME: https://datatracker.ietf.org/doc/html/rfc2045.html
 
 .. _send_message-code-examples:
 
@@ -81,108 +110,18 @@ HTTP リクエスト
 text/plain
 """"""""""
 
-.. code-block:: bash
 
-   #!/bin/bash
-   set -eu
-   
-   GEHIRN_API_STATIC_TOKEN_ID=""
-   GEHIRN_API_STATIC_TOKEN_SECRET=""
-   GEHIRN_MTA_DOMAIN_URL="https://api.gis.gehirn.jp/mta/v1/domains/:domain_id"
-   
-   FROM="from@example.jp"
-   TO="to@example.net"
-   
-   jq \
-       -nf /dev/stdin \
-       --arg self "$GEHIRN_MTA_DOMAIN_URL" \
-       --arg from "$FROM" \
-       --arg to "$TO" \
-       --arg subject "メール送信のテスト" \
-       --arg cty "text/plain; charset=UTF-8" \
-       --arg body "本文" \
-       --arg attachment "$(base64 -w0 attachment.png)" \
-       << 'EOF' | \
-     curl \
-         --user "$GEHIRN_API_STATIC_TOKEN_ID:$GEHIRN_API_STATIC_TOKEN_SECRET" \
-         -H 'Content-Type: application/json' \
-         --data-binary @- \
-         https://api.gis.gehirn.jp/mta/v1/tasks\?is_sync\=true
-   {
-     "procedure": "send_message",
-     "arguments": {
-       "self": $self,
-       "from": [$from],
-       "to": [$to],
-       "subject": $subject,
-       "content_type": $cty,
-       "body": $body,
-       "attachments": [
-         {
-           "filename": "attachment.png",
-           "content_type": "image/png",
-           "content": $attachment
-         }
-       ]
-     }
-   }
-   EOF
+.. literalinclude:: ./plain.sh
+    :language: bash
 
 .. _send_message-code-multipart-alternative:
 
 multipart/alternative
 """""""""""""""""""""
 
-.. code-block:: bash
 
-   #!/bin/bash
-   set -eu
-   
-   GEHIRN_API_STATIC_TOKEN_ID=""
-   GEHIRN_API_STATIC_TOKEN_SECRET=""
-   GEHIRN_MTA_DOMAIN_URL="https://api.gis.gehirn.jp/mta/v1/domains/:domain_id"
-   
-   FROM="from@example.jp"
-   TO="to@example.net"
-
-   BODY='--randomboundary
-   Content-Type: text/plain; charset=UTF-8
-   Content-Transfer-Encoding: quoted-printable
-
-   Hello, World
-   --randomboundary
-   Content-Type: text/html; charset=UTF-8
-   Content-Transfer-Encoding: quoted-printable
-
-   <html><head></head><body>Hello, World</body></html>
-   --randomboundary--'
-   
-   jq \
-       -nf /dev/stdin \
-       --arg self "$GEHIRN_MTA_DOMAIN_URL" \
-       --arg from "$FROM" \
-       --arg to "$TO" \
-       --arg subject "マルチパートメールのテスト" \
-       --arg cty 'multipart/alternative; boundary="randomboundary"' \
-       --arg body "$(echo -n "$BODY"| perl -pe 's/\n/\r\n/')" \
-       << 'EOF' | \
-     curl \
-         --user "$GEHIRN_API_STATIC_TOKEN_ID:$GEHIRN_API_STATIC_TOKEN_SECRET" \
-         -H 'Content-Type: application/json' \
-         --data-binary @- \
-         https://api.gis.gehirn.jp/mta/v1/tasks\?is_sync\=true
-   {
-     "procedure": "send_message",
-     "arguments": {
-       "self": $self,
-       "from": [$from],
-       "to": [$to],
-       "subject": $subject,
-       "content_type": $cty,
-       "body": $body
-     }
-   }
-   EOF
+.. literalinclude:: ./multipart.sh
+    :language: bash
 
 
 .. _sender-and-from:
