@@ -427,10 +427,19 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
   border: 0;
+  width: 100%;
 }
 
 table.docutils {
-    word-break: break-all;
+  word-break: break-all;
+}
+
+table.docutils td {
+  vertical-align: baseline;
+}
+
+tr.row-even {
+  background: #EEE;
 }
 
 table.docutils td, table.docutils th {
