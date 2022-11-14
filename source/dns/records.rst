@@ -3,195 +3,360 @@
 レコード
 ========
 
-.. contents:: 目次
-   :depth: 3
-   :backlinks: none
-
 .. _object:
 
-オブジェクト
-------------
+レコードオブジェクト
+--------------------
+
+リソースレコードを :ref:`作成 <create>` する時や :ref:`編集 <put>` する時は、 POST リクエストや PUT リクエストのボディとして JSON 形式のレコードオブジェクトを送信します。
+
+
+.. _object-properties:
+
+共通プロパティ
+~~~~~~~~~~~~~~
+
+次のプロパティはリソースタイプに関わらず共通して指定します。
+
+``.type`` で指定するリソースタイプに応じて ``.records[]`` 配列の要素に指定するオブジェクトの形式が異なります。
+詳しくはそれぞれのセクションをご覧ください。
+
+
+=============  =======  ====
+プロパティ     型       説明
+=============  =======  ====
+.id            string   レコードを一意に特定する ID (read-only)
+.name          string   ドメイン名（オーナーネーム）
+.type          string   以下のいずれかのリソースタイプ
+
+                        - :ref:`A <type-a>`
+                        - :ref:`NS <type-ns>`
+                        - :ref:`CNAME <type-cname>`
+                        - :ref:`MX <type-mx>`
+                        - :ref:`TXT <type-txt>`
+                        - :ref:`AAAA <type-aaaa>`
+                        - :ref:`SRV <type-srv>`
+                        - :ref:`SVCB <type-svcb>`
+                        - :ref:`HTTPS <type-svcb>`
+                        - :ref:`CAA <type-caa>`
+
+.enable_alias  boolean  :ref:`alias` 利用有無
+
+                        以下のリソースタイプでご利用になれます。
+
+                        - A
+                        - AAAA
+                        - MX （非推奨）
+                        - TXT （非推奨）
+                        - SRV （非推奨）
+
+.alias_to      string   エイリアス先
+.ttl           integer  TTL
+.records[]     array    ``.type`` で指定したリソースタイプに応じたレコードオブジェクトのリスト
+=============  =======  ====
+
+
+.. _type-a:
+
+A リソースレコード
+~~~~~~~~~~~~~~~~~~
 
 .. code-block:: json
 
    {
-     "type": "object",
-     "properties": {
-       "id": {
-         "type": "string",
-         "minLength": 36,
-         "maxLength": 36
-       },
-       "name": {
-         "type": "string",
-         "minLength": 1,
-         "maxLength": 256
-       },
-       "type": {
-         "type": "string",
-         "minLength": 1,
-         "maxLength": 5
-       },
-       "enable_alias": {
-         "type": "boolean"
-       },
-       "alias_to": {
-         "type": "string",
-         "minLength": 1,
-         "maxLength": 256
-       },
-       "ttl": {
-         "type": "integer",
-         "minimum": 30,
-         "maximum": 2147483647
-       },
-       "records": {
-         "type": "array",
-         "minItems": 1,
-         "items": {
-           "type": "object",
-           "properties": {
-             "prio": {
-               "type": "integer",
-               "minimum": 0,
-               "maximum": 32767
-             },
-
-             "address": {
-               "type": "string",
-               "minLength": 3,
-               "maxLength": 39
-             },
-
-             "cname": {
-               "type": "string",
-               "minLength": 1,
-               "maxLength": 256
-             },
-
-             "exchange": {
-               "type": "string",
-               "minLength": 1,
-               "maxLength": 256
-             },
-
-             "nsdname": {
-               "type": "string",
-               "minLength": 1,
-               "maxLength": 256
-             },
-
-             "target": {
-               "type": "string",
-               "minLength": 1,
-               "maxLength": 256
-             },
-             "port": {
-               "type": "integer",
-               "minimum": 0,
-               "maximum": 65535
-             },
-             "weight": {
-               "type": "integer",
-               "minimum": 0,
-               "maximum": 65535
-             },
-
-             "data": {
-               "type": "string",
-               "minLength": 1,
-               "maxLength": 64000
-             }
-           }
-         }
+     "name": "example.net.",
+     "type": "A",
+     "enable_alias": false,
+     "ttl": 3600,
+     "records": [
+       {
+         "address": "192.0.2.10"
        }
-     }
+     ]
    }
 
-.. _object-properties:
+===================  ======  ====
+プロパティ           型      説明
+===================  ======  ====
+.records[].address   string  IPv4 アドレス
+===================  ======  ====
 
-プロパティ
-~~~~~~~~~~
 
-+--------------+---------+-----------------------------------------------------------------------+
-| プロパティ   | 型      | 説明                                                                  |
-+==============+=========+=======================================================================+
-| id           | string  | レコードを一意に特定する ID                                           |
-+--------------+---------+-----------------------------------------------------------------------+
-| name         | string  | ホストネーム                                                          |
-+--------------+---------+-----------------------------------------------------------------------+
-| type         | string  | A 、 AAAA 、 CNAME 、 MX 、 NS 、 SRV 、 TXT いずれかのリソースタイプ |
-+--------------+---------+-----------------------------------------------------------------------+
-| enable_alias | boolean | エイリアス機能状況                                                    |
-+--------------+---------+-----------------------------------------------------------------------+
-| alias_to     | string  | エイリアス先                                                          |
-+--------------+---------+-----------------------------------------------------------------------+
-| ttl          | integer | TTL                                                                   |
-+--------------+---------+-----------------------------------------------------------------------+
-| records      | array   | リソースタイプに応じたレコードのリスト                                |
-+--------------+---------+-----------------------------------------------------------------------+
+.. _type-ns:
 
-.. rubric:: A リソースレコード
+NS リソースレコード
+~~~~~~~~~~~~~~~~~~~
 
-+-----------------+--------+---------------+
-| プロパティ      | 型     | 説明          |
-+=================+========+===============+
-| records.address | string | IPv4 アドレス |
-+-----------------+--------+---------------+
+.. code-block:: json
 
-.. rubric:: AAAA リソースレコード
+   {
+     "name": "example.net.",
+     "type": "NS",
+     "enable_alias": false,
+     "ttl": 86400,
+     "records": [
+       {
+         "nsdname": "ns2.gehirndns.com."
+       },
+       {
+         "nsdname": "ns2.example.jp."
+       },
+       {
+         "nsdname": "ns2.example.net."
+       },
+       {
+         "nsdname": "ns2.example.org."
+       }
+     ]
+   }
 
-+-----------------+--------+---------------+
-| プロパティ      | 型     | 説明          |
-+=================+========+===============+
-| records.address | string | IPv6 アドレス |
-+-----------------+--------+---------------+
+==================  ======  ====
+プロパティ          型      説明
+==================  ======  ====
+.records[].nsdname  string  ネームサーバーのドメインネーム
+==================  ======  ====
 
-.. rubric:: CNAME リソースレコード
 
-+---------------+--------+-------+
-| プロパティ    | 型     | 説明  |
-+===============+========+=======+
-| records.cname | string | CNAME |
-+---------------+--------+-------+
+.. _type-cname:
 
-.. rubric:: MX リソースレコード
+CNAME リソースレコード
+~~~~~~~~~~~~~~~~~~~~~~
 
-+------------------+---------+--------------------------------------+
-| プロパティ       | 型      | 説明                                 |
-+==================+=========+======================================+
-| records.prio     | integer | プライオリティ                       |
-+------------------+---------+--------------------------------------+
-| records.exchange | string  | メールエクスチェンジのドメインネーム |
-+------------------+---------+--------------------------------------+
+.. code-block:: json
 
-.. rubric:: NS リソースレコード
+   {
+     "name": "example.net.",
+     "type": "CNAME",
+     "enable_alias": false,
+     "ttl": 86400,
+     "records": [
+       {
+         "cname": "cname.example.org."
+       }
+     ]
+   }
 
-+-----------------+--------+--------------------------------+
-| プロパティ      | 型     | 説明                           |
-+=================+========+================================+
-| records.nsdname | string | ネームサーバーのドメインネーム |
-+-----------------+--------+--------------------------------+
+================  ======  ====
+プロパティ        型       説明
+================  ======  ====
+.records[].cname  string  CNAME
+================  ======  ====
 
-.. rubric:: SRV リソースレコード
+- .records[] 配列は常に 1 つの要素のみ許可されます。
 
-+----------------+---------+----------------------------+
-| プロパティ     | 型      | 説明                       |
-+================+=========+============================+
-| records.target | string  | ターゲットのドメインネーム |
-+----------------+---------+----------------------------+
-| records.port   | integer | ポート番号                 |
-+----------------+---------+----------------------------+
-| records.weight | integer | ウェイト                   |
-+----------------+---------+----------------------------+
 
-.. rubric:: TXT リソースレコード
+.. _type-mx:
 
-+--------------+--------+--------+
-| プロパティ   | 型     | 説明   |
-+==============+========+========+
-| records.data | string | データ |
-+--------------+--------+--------+
+MX リソースレコード
+~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: json
+
+   {
+     "name": "example.net.",
+     "type": "MX",
+     "enable_alias": false,
+     "ttl": 86400,
+     "records": [
+       {
+         "prio": 10,
+         "exchange": "mx1.mta.gis.gehirn.jp."
+       },
+       {
+         "prio": 10,
+         "exchange": "mx2.mta.gis.gehirn.jp."
+       },
+       {
+         "prio": 10,
+         "exchange": "mx3.mta.gis.gehirn.jp."
+       },
+       {
+         "prio": 10,
+         "exchange": "mx4.mta.gis.gehirn.jp."
+       },
+       {
+         "prio": 10,
+         "exchange": "mx5.mta.gis.gehirn.jp."
+       }
+     ]
+   }
+
+===================  =======  ====
+プロパティ           型       説明
+===================  =======  ====
+.records[].prio      integer  優先度
+.records[].exchange  string   メールエクスチェンジのドメインネーム
+===================  =======  ====
+
+
+.. _type-txt:
+
+TXT リソースレコード
+~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: json
+
+   {
+     "name": "example.net.",
+     "type": "TXT",
+     "enable_alias": false,
+     "ttl": 86400,
+     "records": [
+       {
+         "data": "v=spf1 +include:_spf.gehirn.jp -all"
+       }
+     ]
+   }
+
+================  ======  ====
+プロパティ        型      説明
+================  ======  ====
+.records[].data   string  TXT データ
+================  ======  ====
+
+
+.. _type-aaaa:
+
+AAAA リソースレコード
+~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: json
+
+   {
+     "name": "example.net.",
+     "type": "AAAA",
+     "enable_alias": false,
+     "ttl": 3600,
+     "records": [
+       {
+         "address": "2001:db8::10"
+       }
+     ]
+   }
+
+===================  ======  ====
+プロパティ           型      説明
+===================  ======  ====
+.records[].address   string  IPv6 アドレス
+===================  ======  ====
+
+
+.. _type-srv:
+
+SRV リソースレコード
+~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: json
+
+   {
+     "name": "_submission._tcp.example.net.",
+     "type": "SRV",
+     "enable_alias": false,
+     "ttl": 86400,
+     "records": [
+       {
+         "prio": 10,
+         "weight": 0,
+         "target": "mx.mta.gis.gehirn.jp.",
+         "port": 587
+       }
+     ]
+   }
+
+==================  =======  ====
+プロパティ          型       説明
+==================  =======  ====
+.records[].prio     integer  優先度
+.records[].weight   integer  ウェイト
+.records[].target   string   ターゲットのドメインネーム
+.records[].port     integer  ポート番号
+==================  =======  ====
+
+
+.. _type-svcb:
+
+SVCB/HTTPS リソースレコード
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: json
+
+   {
+     "name": "example.net.",
+     "type": "HTTPS",
+     "enable_alias": false,
+     "ttl": 3600,
+     "records": [
+       {
+         "prio": 1,
+         "target": ".",
+         "params": {
+           "alpn": "h2,h3"
+         }
+       }
+     ]
+   }
+
+==================  ======================  ========================  ====
+プロパティ          型                      要否                      説明
+==================  ======================  ========================  ====
+.records[].prio     integer                 必須                      優先度
+.records[].target   string                  必須                      ターゲットのドメインネーム
+.records[].params   object<string, string>  サービスモード_ の時必須  SVCB パラメーター
+
+                                                                      パラメーターキーは以下のいずれか
+
+                                                                      - ``mandatory``
+                                                                      - ``alpn``
+                                                                      - ``no-default-alpn``
+                                                                      - ``port``
+                                                                      - ``ipv4hint``
+                                                                      - ``ech``
+                                                                      - ``ipv6hint``
+                                                                      - ``typeNNNN`` 形式
+==================  ======================  ========================  ====
+
+.. _サービスモード: https://www.ietf.org/archive/id/draft-ietf-dnsop-svcb-https-11.html#name-servicemode
+
+
+
+.. _type-caa:
+
+CAA リソースレコード
+~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: json
+
+   {
+     "name": "example.net.",
+     "type": "CAA",
+     "enable_alias": false,
+     "ttl": 3600,
+     "records": [
+       {
+         "flags": 0,
+         "tag": "issue",
+         "value": "pki.example.org."
+       }
+     ]
+   }
+
+================  =======  ====
+プロパティ        型       説明
+================  =======  ====
+.records[].flags  integer  フラグ
+.records[].tag    string   タグ
+.records[].value  string   値
+================  =======  ====
+
+
+JSON Schema
+~~~~~~~~~~~
+
+レコードオブジェクト全体の JSON Schema は以下の通りです。
+
+.. literalinclude:: ./record-schema.json
+    :language: json
+
 
 .. _create:
 
@@ -209,6 +374,19 @@ HTTP リクエスト
 
    POST /dns/v1/zones/:zone_id/versions/:version_id/records HTTP/1.1
    Host: api.gis.gehirn.jp
+   Content-Type: application/json
+
+   {
+     "name": "example.net.",
+     "type": "A",
+     "enable_alias": false,
+     "ttl": 3600,
+     "records": [
+       {
+         "address": "192.0.2.10"
+       }
+     ]
+   }
 
 .. _create-request-parameters:
 

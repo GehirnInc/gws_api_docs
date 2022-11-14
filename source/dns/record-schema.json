@@ -1,0 +1,194 @@
+{
+  "definitions": {
+    "uint16": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 65535
+    },
+    "hostname": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 254
+    },
+    "ipv4address": {
+      "type": "string",
+      "minLength": 7,
+      "maxLength": 15
+    },
+    "ipv6address": {
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 39
+    }
+  },
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "maxLength": 36,
+      "readOnly": true
+    },
+    "name": { "$ref": "#/definitions/hostname" },
+    "type": {
+      "enum": [
+        "A",
+        "NS",
+        "CNAME",
+        "MX",
+        "TXT",
+        "AAAA",
+        "SRV",
+        "SVCB",
+        "HTTPS",
+        "CAA"
+      ]
+    },
+    "enable_alias": { "type": "boolean" },
+    "alias_to": { "$ref": "#/definitions/hostname" },
+    "ttl": {
+      "type": "integer",
+      "minimum": 30,
+      "maximum": 2147483647
+    },
+    "records": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 25,
+      "oneOf": [
+        {
+          "items": {
+            "title": "A / AAAA",
+            "type": "object",
+            "properties": {
+              "address": {
+                "anyOf": [
+                  { "$ref": "#/definitions/ipv4address" },
+                  { "$ref": "#/definitions/ipv6address" }
+                ]
+              }
+            },
+            "required": ["address"],
+            "additionalProperties": false
+          }
+        },
+        {
+          "items": {
+            "title": "NS",
+            "type": "object",
+            "properties": {
+              "nsdname": { "$ref": "#/definitions/hostname" }
+            },
+            "required": ["nsdname"],
+            "additionalProperties": false
+          }
+        },
+        {
+          "items": {
+            "title": "CNAME",
+            "type": "object",
+            "properties": {
+              "cname": { "$ref": "#/definitions/hostname" }
+            },
+            "required": ["cname"],
+            "additionalProperties": false
+          }
+        },
+        {
+          "items": {
+            "title": "MX",
+            "type": "object",
+            "properties": {
+              "prio": { "$ref": "#/definitions/uint16" },
+              "exchange": { "$ref": "#/definitions/hostname" }
+            },
+            "required": ["prio", "exchange"],
+            "additionalProperties": false
+          }
+        },
+        {
+          "items": {
+            "title": "TXT",
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 4000
+              }
+            },
+            "required": ["data"],
+            "additionalProperties": false
+          }
+        },
+        {
+          "items": {
+            "title": "SRV",
+            "type": "object",
+            "properties": {
+              "prio": { "$ref": "#/definitions/uint16" },
+              "weight": { "$ref": "#/definitions/uint16" },
+              "target": { "$ref": "#/definitions/hostname" },
+              "port": { "$ref": "#/definitions/uint16" }
+            },
+            "required": ["prio", "weight", "target", "port"],
+            "additionalProperties": false
+          }
+        },
+        {
+          "items": {
+            "title": "SVCB / HTTPS",
+            "type": "object",
+            "properties": {
+              "prio": { "$ref": "#/definitions/uint16" },
+              "target": { "$ref": "#/definitions/hostname" },
+              "params": {
+                "type": "object",
+                "properties": {
+                  "mandatory": { "type": "string" },
+                  "alpn": { "type": "string" },
+                  "no-default-alpn": { "type": "string" },
+                  "port": { "type": "string" },
+                  "ipv4hint": { "type": "string" },
+                  "ech": { "type": "string" },
+                  "ipv6hint": { "type": "string" }
+                },
+                "patternProperties": {
+                  "^type(0|[1-9][0-9]{0,4})$": { "type": "string" }
+                },
+                "additionalProperties": false
+              }
+            },
+            "required": ["prio", "target"],
+            "additionalProperties": false
+          }
+        },
+        {
+          "items": {
+            "title": "CAA",
+            "type": "object",
+            "properties": {
+              "flags": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 255
+              },
+              "tag": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 255
+              },
+              "value": { "type": "string" }
+            },
+            "required": ["flags", "tag", "value"],
+            "additionalProperties": false
+          }
+        }
+      ]
+    }
+  },
+  "oneOf": [
+    { "required": ["name", "type", "enable_alias", "ttl", "records"] },
+    { "required": ["name", "type", "enable_alias", "alias_to"] }
+  ],
+  "additionalProperties": false
+}
