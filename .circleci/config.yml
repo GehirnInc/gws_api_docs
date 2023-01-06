@@ -29,6 +29,9 @@ jobs:
           command: |
             sudo apt-get update
             sudo apt-get install --assume-yes rsync
+      - add_ssh_keys:
+          fingerprints:
+            - 4d:f4:46:2f:69:ee:a0:bd:9c:29:fe:de:18:00:f1:de
       - run:
           name: Install a key to known_hosts
           command: |

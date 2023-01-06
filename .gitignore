@@ -1,3 +1,7 @@
 build/
 
+/.circleci/id_*
+!/.circleci/id_*.pub
+!/.circleci/id_*.yaml
+
 .venv/
