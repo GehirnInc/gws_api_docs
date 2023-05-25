@@ -338,7 +338,7 @@ SVCB/HTTPS リソースレコード
 ==================  ======================  ========================  ====
 .records[].prio     integer                 必須                      優先度
 .records[].target   string                  必須                      ターゲットのドメインネーム
-.records[].params   object<string, string>  サービスモード_ の時必須  SVCB パラメーター
+.records[].params   object<string, string>  任意                      SVCB パラメーター
 
                                                                       パラメーターキーは以下のいずれか
 
@@ -351,9 +351,6 @@ SVCB/HTTPS リソースレコード
                                                                       - ``ipv6hint``
                                                                       - ``typeNNNN`` 形式
 ==================  ======================  ========================  ====
-
-.. _サービスモード: https://www.ietf.org/archive/id/draft-ietf-dnsop-svcb-https-11.html#name-servicemode
-
 
 
 .. _type-caa:
