@@ -7,10 +7,10 @@
    :depth: 3
    :backlinks: none
 
-.. _object:
+.. _zone-object:
 
-オブジェクト
-------------
+ゾーンオブジェクト
+------------------
 
 .. code-block:: json
 
@@ -27,6 +27,9 @@
          "minLength": 4,
          "maxLength": 255
        },
+       "deletion_protection": {
+         "type": "boolean"
+       },
        "current_version_id": {
          "type": "string",
          "minLength": 36,
@@ -35,20 +38,19 @@
      }
    }
 
-.. _object-properties:
+.. _zone-object-properties:
 
-プロパティ
-~~~~~~~~~~
+.. table:: ゾーンオブジェクトプロパティ
+   :align: left
 
-+--------------------+--------+----------------------------------------+
-| プロパティ　       | 型     | 説明                                   |
-+====================+========+========================================+
-| id                 | string | ゾーンを一意に識別する ID              |
-+--------------------+--------+----------------------------------------+
-| name               | string | 4文字以上255文字以下のドメイン名       |
-+--------------------+--------+----------------------------------------+
-| current_version_id | string | 現在アクティブな :doc:`versions` の ID |
-+--------------------+--------+----------------------------------------+
+   ====================  ========  ============  =====
+   プロパティ　          型        編集可否      説明
+   ====================  ========  ============  =====
+   .id                   string    読み取り専用  ゾーンを一意に識別する ID
+   .name                 string    読み取り専用  4文字以上255文字以下のドメイン名
+   .deletion_protection  boolean   編集可        削除保護機能の設定状況
+   .current_version_id   string    読み取り専用  現在アクティブな :doc:`versions` の ID
+   ====================  ========  ============  =====
 
 .. _create:
 
@@ -56,6 +58,8 @@
 ----
 
 Gehirn DNS に新しいゾーンを作成します。
+
+ドメイン名は `事前に認証 <https://support.gehirn.jp/manual/project/add-domain/>`_ されている必要があります。
 
 .. _create-request:
 
@@ -66,6 +70,12 @@ HTTP リクエスト
 
    POST /dns/v1/zones HTTP/1.1
    Host: api.gis.gehirn.jp
+   Content-Type: application/json
+
+   {
+     "name": "example.net",
+     "deletion_protection": true
+   }
 
 .. _create-request-body:
 
@@ -110,7 +120,26 @@ HTTP リクエスト
 HTTP レスポンス
 ~~~~~~~~~~~~~~~
 
-ひとつ以上の\ |ゾーンオブジェクト|\ を要素とする JSON array がレスポンスされます。
+すべての\ |ゾーンオブジェクト|\ を要素とする JSON array がレスポンスされます。
+
+.. code-block:: json
+
+   [
+     {
+       "id": "ZONE-ID-1",
+       "name": "example.net",
+       "deletion_protection": true,
+       "current_version_id": "VERSION-ID-1"
+     },
+     {
+       "id": "ZONE-ID-2",
+       "name": "example.org",
+       "deletion_protection": true,
+       "current_version_id": "VERSION-ID-2"
+     }
+   [
+
+
 
 .. _get:
 
@@ -131,14 +160,14 @@ HTTP リクエスト
 
 .. _get-request-parameters:
 
-パラメーター
-""""""""""""
+.. table:: パスパラメーター
+   :align: left
 
-+--------------+---------------------+
-| パラメーター | 値                  |
-+==============+=====================+
-| zone_id      | 取得するゾーンの ID |
-+--------------+---------------------+
+   ============  ==
+   パラメーター  値
+   ============  ==
+   zone_id       取得するゾーンの ID
+   ============  ==
 
 .. _get-request-body:
 
@@ -153,6 +182,52 @@ HTTP レスポンス
 ~~~~~~~~~~~~~~~
 
 指定した\ |ゾーンオブジェクト|\ が返ります。
+
+.. _put:
+
+編集
+----
+
+Gehirn DNS に存在する個別のゾーンを編集します。
+
+.. _put-request:
+
+HTTP リクエスト
+~~~~~~~~~~~~~~~
+
+.. code-block:: http
+
+   PUT /dns/v1/zones/:zone_id HTTP/1.1
+   Host: api.gis.gehirn.jp
+   Content-Type: application/json
+
+   {
+     "name": "example.net",
+     "deletion_protection": true
+   }
+
+.. table:: パスパラメーター
+   :align: left
+
+   ============  ==
+   パラメーター  値
+   ============  ==
+   zone_id       編集するゾーンの ID
+   ============  ==
+
+.. _put-request-body:
+
+リクエストボディ
+""""""""""""""""
+
+編集を加えた\ |ゾーンオブジェクト|\ をリクエストしてください。
+
+.. _put-response:
+
+HTTP レスポンス
+~~~~~~~~~~~~~~~
+
+編集された\ |ゾーンオブジェクト|\ が返ります。
 
 .. _delete:
 
@@ -173,14 +248,14 @@ HTTP リクエスト
 
 .. _delete-request-parameters:
 
-パラメーター
-""""""""""""
+.. table:: パスパラメーター
+   :align: left
 
-+--------------+----------------------+
-| パラメーター | 値                   |
-+==============+======================+
-|  zone_id     |  削除するゾーンの ID |
-+--------------+----------------------+
+   ============  ==
+   パラメーター  値
+   ============  ==
+   zone_id       削除するゾーンの ID
+   ============  ==
 
 .. _delete-request-body:
 
@@ -196,4 +271,4 @@ HTTP レスポンス
 
 削除された\ |ゾーンオブジェクト|\ が返ります。
 
-.. |ゾーンオブジェクト| replace:: `ゾーンオブジェクト <object_>`_
+.. |ゾーンオブジェクト| replace:: `ゾーンオブジェクト <zone-object_>`_
