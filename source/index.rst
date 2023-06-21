@@ -17,6 +17,7 @@ Gehirn Web Services API Documentation
    rs2plus/index
    dns/index
    mta/index
+   edj/index
 
 Indices and tables
 ==================

@@ -1,0 +1,75 @@
+{
+  "type": "object",
+  "properties": {
+    "@version": {
+      "const": "1"
+    },
+    "id": {
+      "type": "string"
+    },
+    "service": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "summary": {
+      "type": "string"
+    },
+    "short": {
+      "type": "string"
+    },
+    "content": {},
+    "raw": {},
+    "attachments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "content_type": {
+            "type": "string"
+          },
+          "filename": {
+            "type": "string"
+          },
+          "encoding": {
+            "type": "string",
+            "enum": ["7bit", "8bit", "base64"]
+          },
+          "content": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "content_type",
+          "encoding",
+          "content"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "topic_id": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "@version",
+    "id",
+    "service",
+    "name",
+    "summary",
+    "content",
+    "attachments",
+    "created_at"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,43 @@
+{
+  "@version": "1",
+  "id": "072edd9c-d309-4790-8e70-0556466c5f0d",
+  "service": "mta",
+  "name": "incoming",
+  "summary": "From: <john.smith@example.net>\nTo: <sayhi@example.net>\nDate: 21 Jun 2023 06:00:00 +0000\nSubject: Hello\n\nHello World!\n",
+  "content": {
+    "header_list": [
+      {
+        "raw_name": "From",
+        "raw_value": " <john.smith@example.net>"
+      },
+      {
+        "raw_name": "To",
+        "raw_value": " <sayhi@example.net>"
+      },
+      {
+        "raw_name": "Date",
+        "raw_value": " 21 Jun 2023 06:00:00 +0000"
+      },
+      {
+        "raw_name": "Subject",
+        "raw_value": " Hello"
+      }
+    ],
+    "header_map": {
+      "From": ["<john.smith@example.net>"],
+      "To": ["<sayhi@example.net>"],
+      "Date": ["21 Jun 2023 06:00:00 +0000"],
+      "Subject": ["Hello"]
+    },
+    "body": "Hello World!\r\n"
+  },
+  "attachments": [
+    {
+      "content_type": "image/jpeg",
+      "filename": "cat.jpeg",
+      "encoding": "base64",
+      "content": ""
+    }
+  ],
+  "created_at": "2023-06-21T06:00:00Z"
+}
