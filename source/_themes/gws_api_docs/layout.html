@@ -69,59 +69,59 @@
   {%- block extrahead %} {% endblock %}
   </head>
   {%- block body_tag %}<body>{% endblock %}
-    <div id="header">
-      <div class="logo-area">
-        <img src="{{ pathto('_static/apilogo.png', 1) }}" alt="API Logo">
-      </div>
-      <div class="hd-menu">
-        <ul>
-          <li><a href="https://support.gehirn.jp/">サポートサイト</a></li>
-          <li><a href="https://www.gehirn.jp/">サービスサイト</a></li>
-          <li><a href="https://id.gehirn.jp/">Gehirn ID Center（ログイン）</a></li>
-        </ul>
-      </div>
-    </div>
-
-    <div id="navigation">
-      <ul>
-        <li><a href="{{ pathto(master_doc) }}">Docs</a></li>
-        {%- for doc in parents %}
-        <li><a href="{{ doc.link|e }}">{{ doc.title }}</a></li>
-        {%- endfor %}
-        <li>{{ title }}</li>
-      </ul>
-    </div>
-
-    {%- block content %}
-    <div class="document">
-      {%- block document %}
-      <div class="documentwrapper">
-        {%- if render_sidebar %}
-        <div class="bodywrapper">
-        {%- endif %}
-          <div class="body" role="main">
-            {% block body %} {% endblock %}
-          </div>
-        {%- if render_sidebar %}
+    <div id="container">
+      <header>
+        <div class="logo-area">
+          <img src="{{ pathto('_static/apilogo.png', 1) }}" alt="API Logo">
         </div>
-        {%- endif %}
-      </div>
-      {%- endblock %}
+        <nav class="hd-menu">
+          <ul>
+            <li><a href="https://support.gehirn.jp/">サポートサイト</a></li>
+            <li><a href="https://www.gehirn.jp/">サービスサイト</a></li>
+            <li><a href="https://id.gehirn.jp/">Gehirn ID Center（ログイン）</a></li>
+          </ul>
+        </nav>
+      </header>
 
-      {%- if render_sidebar %}
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
+      <div id="content">
+        {%- if render_sidebar %}
+        <aside class="sphinxsidebar" role="navigation" aria-label="main navigation">
           {%- for sidebartemplate in sidebars %}
           {%- include sidebartemplate %}
           {%- endfor %}
+        </aside>
+        {%- endif %}
+
+        <div id="main">
+          <nav id="navigation">
+            <ul>
+              <li><a href="{{ pathto(master_doc) }}">Docs</a></li>
+              {%- for doc in parents %}
+              <li><a href="{{ doc.link|e }}">{{ doc.title }}</a></li>
+              {%- endfor %}
+              <li>{{ title }}</li>
+            </ul>
+          </nav>
+
+          {%- block content %}
+          <main class="document">
+            {%- block document %}
+            <div class="body" role="main">
+              {% block body %} {% endblock %}
+            </div>
+            {%- endblock %}
+          </main>
+          {%- endblock %}
+
+          {%- block footer %}
+          <footer>
+            {%- if show_copyright %}
+              &copy; {{ copyright }}
+            {%- endif %}
+          </footer>
+          {%- endblock %}
         </div>
       </div>
-      {%- endif %}
-      <div class="clearer"></div>
     </div>
-    {%- endblock %}
-
-    {%- block footer %}
-    {%- endblock %}
   </body>
 </html>
