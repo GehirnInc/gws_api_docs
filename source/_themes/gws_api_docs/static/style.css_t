@@ -7,6 +7,10 @@ select {
   vertical-align: middle;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   padding: 0;
   margin: 0;
@@ -72,20 +76,29 @@ body {
 }
 
 #main {
+  --breadcrumbs-height: 50px;
+
   display: flex;
   flex: 1;
   flex-direction: column;
+}
+
+#main :target {
+  scroll-margin-block-start: calc(
+    var(--header-height) + var(--breadcrumbs-height)
+  );
 }
 
 #main > nav {
   position: sticky;
   top: var(--header-height);
   z-index: 100000;
+  box-sizing: border-box;
   height: 50px;
   padding: 0 10px;
   margin: 0;
   overflow: hidden;
-  line-height: 50px;
+  line-height: calc(var(--breadcrumbs-height) - 1px);
   color: #333;
   background: #fff;
   border-bottom: 1px solid #ddd;
@@ -107,14 +120,10 @@ body {
   list-style: none;
 }
 
-#main > nav li::after {
+#main > nav li:not(:last-child)::after {
   padding: 0 5px;
   color: #888;
   content: ">";
-}
-
-#main > nav li:last-child::after {
-  content: "";
 }
 
 #main > nav a {
