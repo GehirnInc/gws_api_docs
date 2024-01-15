@@ -1,6 +1,8 @@
 Gehirn EDJ
 ==========
 
+Gehirn EDJ の API ドキュメントは `OpenAPI 形式 <https://api.gis.gehirn.jp/edj/v1/openapi.json>`_ でも提供しています。
+
 イベント形式
 ------------
 

@@ -7,6 +7,8 @@ Gehirn MTA
 
 このドキュメントでは `Gehirn MTA`_ が提供する API のご利用方法を説明します。
 
+Gehirn MTA の API ドキュメントは `OpenAPI 形式 <https://api.gis.gehirn.jp/mta/v1/openapi.json>`_ でも提供しています。
+
 .. contents:: 目次
    :depth: 3
    :backlinks: none
