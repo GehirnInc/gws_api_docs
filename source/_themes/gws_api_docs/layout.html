@@ -64,6 +64,9 @@
   {%- if prev %}
     <link rel="prev" title="{{ prev.title|striptags|e }}" href="{{ prev.link|e }}" />
   {%- endif %}
+  {%- if pageurl %}
+    <link rel="canonical" href="{{ pageurl|e }}" />
+  {%- endif %}
   {% endblock %}
 
   {%- block extrahead %} {% endblock %}
