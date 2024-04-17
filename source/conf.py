@@ -26,7 +26,7 @@
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    'sphinx.ext.todo',
+    'sphinx_sitemap',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -203,6 +203,9 @@ html_search_language = 'ja'
 
 # Output file base name for HTML help builder.
 htmlhelp_basename = 'GehirnWebServicesAPIdoc'
+
+sitemap_url_scheme = "{link}"
+sitemap_locales = [None]
 
 # -- Options for LaTeX output ---------------------------------------------
 

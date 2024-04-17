@@ -1,1 +1,2 @@
-Sphinx~=5.0
+Sphinx ~= 5.0
+sphinx-sitemap ~= 2.5
