@@ -36,9 +36,21 @@
           "type": "string",
           "format": "email"
         },
+        "reply_to": { "$ref": "#/definitions/mailbox-list" },
         "to": { "$ref": "#/definitions/mailbox-list" },
         "cc": { "$ref": "#/definitions/mailbox-list" },
         "bcc": { "$ref": "#/definitions/mailbox-list" },
+        "message_id": {
+          "type": "string"
+        },
+        "in_reply_to": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "references": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
         "subject": {
           "type": "string"
         },

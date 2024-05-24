@@ -53,9 +53,17 @@ HTTP リクエスト
    .arguments.sender                      string                    メール送信者（|mailbox|_ 形式）
 
                                                                     :ref:`sender-and-from` もあわせて参照してください。
+   .arguments.reply_to                    []string                  このメールへの返信を受け取る返信先のリスト ( |mailbox-list|_ 形式)
    .arguments.to                          []string                  :mailheader:`To` 送信先のリスト（ |mailbox-list|_ 形式）
    .arguments.cc                          []string                  :mailheader:`Cc` 送信先のリスト（ |mailbox-list|_ 形式）
    .arguments.bcc                         []string                  :mailheader:`Bcc` 送信先のリスト（ |mailbox-list|_ 形式）
+   .arguments.message_id                  string                    このメールを一意に特定する ID
+   .arguments.in_reply_to                 []string                  返信先のメールの :mailheader:`Message-ID`
+
+                                                                    :ref:`threading` もあわせて参照してください。
+   .arguments.references                  []string                  このメールに関連するメール (スレッド) の :mailheader:`Message-ID`
+
+                                                                    :ref:`threading` もあわせて参照してください。
    .arguments.subject                     string                    メールサブジェクト (UTF-8)
    .arguments.content_type                string                    メール本文の :mailheader:`Content-Type`
 
@@ -94,7 +102,7 @@ HTTP リクエスト
 .. |mailbox| replace:: RFC 5322 mailbox
 .. _mailbox: https://datatracker.ietf.org/doc/html/rfc5322.html#section-3.4
 
-.. |mailbox-list| replace:: RFC 5322 mailbox
+.. |mailbox-list| replace:: RFC 5322 mailbox-list
 .. _mailbox-list: https://datatracker.ietf.org/doc/html/rfc5322.html#section-3.4
 
 .. |optional-field| replace:: RFC 5322 optional-field
@@ -146,3 +154,43 @@ Sender と From について
 このため、 From に複数のメール作成者を指定した場合は、 DMARC の設定内容によってはメール送信先で受け取りを拒否されたり検疫されたりする場合があります。
 
 したがって、現在では From に単一のメール作成者を指定することを推奨します。
+
+.. _threading:
+
+メールスレッドの指定
+--------------------
+
+:mailheader:`In-Reply-To` フィールドと :mailheader:`References` フィールドはともに関連するメール (スレッド) を参照するためのフィールドですが、使用方法が異なります。
+
+ここで簡単にご説明いたします。より詳しくは :rfc:`RFC 5322 <5322#section-3.6.4>` を参照してください。
+
+In-Reply-To
+~~~~~~~~~~~
+
+:mailheader:`In-Reply-To` フィールドには、そのメールが返信する直接の親にあたるメールの :mailheader:`Message-ID` を指定します。親が :mailheader:`Message-ID` を持たない場合は指定しません。
+
+References
+~~~~~~~~~~
+
+一方、 :mailheader:`References` フィールドには親に加え祖先 (親の親、さらにその親) にあたるメールの :mailheader:`Message-ID` を指定します。
+
+:mailheader:`References` フィールドの値は、標準的には以下のようにして組み立てます。
+
+1. 値を空文字列で初期化します
+2. 以下のいずれかの手順により、祖先を指定します
+
+    - 親メールが :mailheader:`References` を含む場合、その値を使用します
+    - 親メールが :mailheader:`References` を含まずに :mailheader:`In-Reply-To` を含み、かつその内容が単独の親を参照する場合、その値を使用します
+    - これ以外の場合はなにもしません
+
+3. 親メールが :mailheader:`Message-ID` を含む場合、その値を追加します
+
+この手順を返信を作成するたびに繰り返すことで、すべての関連するメールを :mailheader:`References` フィールドで参照することができます。
+
+Gmail におけるスレッド
+~~~~~~~~~~~~~~~~~~~~~~
+
+Gmail では送信者や受信者、件名に応じたメールのスレッド化が行われますが、:mailheader:`References` フィールドにより明示的にスレッドを制御することができます。
+Gehirn MTA から送信するメールが正しくスレッド化されたり、反対に同じ件名でもスレッド化を解除したいときには :mailheader:`References` フィールドをご指定ください。
+
+詳しくは `Threading changes in Gmail conversation view <https://workspaceupdates.googleblog.com/2019/03/threading-changes-in-gmail-conversation-view.html>`_ をご参照ください。
