@@ -139,7 +139,7 @@ main.document {
   flex: 1;
 }
 
-aside.sphinxsidebar {
+.sphinxsidebar {
   width: 250px;
   padding: 20px 0;
   margin: 0;
@@ -149,18 +149,18 @@ aside.sphinxsidebar {
   background: #66b0c1;
 }
 
-aside.sphinxsidebar a {
+.sphinxsidebar a {
   text-decoration: none;
 }
 
-aside.sphinxsidebar ul {
+.sphinxsidebar ul {
   padding: 0 0 0 15px;
   margin: 0;
   color: #000;
   list-style: none;
 }
 
-aside.sphinxsidebar ul li a {
+.sphinxsidebar ul li a {
   display: block;
   padding: 8px 0 8px 10px;
   font-size: 90%;
@@ -168,12 +168,12 @@ aside.sphinxsidebar ul li a {
   text-decoration: none;
 }
 
-aside.sphinxsidebar ul li a:hover {
+.sphinxsidebar ul li a:hover {
   background: #316874;
 }
 
-aside.sphinxsidebar h3,
-aside.sphinxsidebar h4 {
+.sphinxsidebar h3,
+.sphinxsidebar h4 {
   padding: 6px 0 6px 10px;
   margin: 0 0 5px;
   font-weight: normal;
@@ -181,47 +181,47 @@ aside.sphinxsidebar h4 {
   border-right: 10px solid #275661;
 }
 
-aside.sphinxsidebar h3 {
+.sphinxsidebar h3 {
   font-size: 24px;
 }
 
-aside.sphinxsidebar h3 a {
+.sphinxsidebar h3 a {
   color: #fff;
 }
 
-aside.sphinxsidebar h4 {
+.sphinxsidebar h4 {
   font-size: 20px;
 }
 
-aside.sphinxsidebar p.blurb {
+.sphinxsidebar p.blurb {
   margin-top: 0;
   font-style: normal;
 }
 
-aside.sphinxsidebar p.logo a,
-aside.sphinxsidebar h3 a,
-aside.sphinxsidebar p.logo a:hover,
-aside.sphinxsidebar h3 a:hover {
+.sphinxsidebar p.logo a,
+.sphinxsidebar h3 a,
+.sphinxsidebar p.logo a:hover,
+.sphinxsidebar h3 a:hover {
   border: none;
 }
 
-aside.sphinxsidebar p {
+.sphinxsidebar p {
   margin: 10px 0;
 }
 
-aside.sphinxsidebar ul li.toctree-l1 > a {
+.sphinxsidebar ul li.toctree-l1 > a {
   font-size: 120%;
 }
 
-aside.sphinxsidebar ul li.toctree-l2 > a {
+.sphinxsidebar ul li.toctree-l2 > a {
   font-size: 110%;
 }
 
-aside.sphinxsidebar input {
+.sphinxsidebar input {
   border: 1px solid #ccc;
 }
 
-aside.sphinxsidebar hr {
+.sphinxsidebar hr {
   width: 50%;
   height: 1px;
   margin-left: 0;
@@ -548,7 +548,7 @@ a:hover code {
 }
 
 @media screen and (width <= 870px) {
-  aside.sphinxsidebar {
+  .sphinxsidebar {
     display: none;
   }
 
