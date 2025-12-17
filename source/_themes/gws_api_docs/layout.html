@@ -1,77 +1,14 @@
-{%- set render_sidebar = (not embedded) and (not theme_nosidebar|tobool) and
-                         (sidebars != []) %}
-{%- set url_root = pathto('', 1) %}
-{%- if url_root == '#' %}{% set url_root = '' %}{% endif %}
-{%- if not embedded and docstitle %}
-  {%- set titlesuffix = " &mdash; "|safe + docstitle|e %}
-{%- else %}
-  {%- set titlesuffix = "" %}
-{%- endif -%}
+{% extends "basic/layout.html" %}
 
-<!DOCTYPE html>
-{%- if html_tag %}
-{{ html_tag }}
-{%- else %}
-<html{% if language is not none %} lang="{{ language }}"{% endif %}>
-{%- endif %}
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
-
-  {%- block htmltitle %}
-    <title>{{ title|striptags|e }}{{ titlesuffix }}</title>
-  {%- endblock %}
-
-  {%- block css %}
-  {%- for css in css_files %}
-  {%- if css|attr("filename") %}
-    {{ css_tag(css) }}
+{%- block htmltitle %}
+  {%- if not embedded and docstitle %}
+    <title>{{ title|striptags|e }} &mdash; {{ docstitle|e }}</title>
   {%- else %}
-    <link rel="stylesheet" href="{{ pathto(css, 1) }}" type="text/css" />
+    <title>{{ title|striptags|e }}</title>
   {%- endif %}
-  {%- endfor %}
-  {%- endblock %}
+{%- endblock %}
 
-  {%- if not embedded %}
-  {%- block scripts %}
-    <script type="text/javascript" id="documentation_options" data-url_root="{{ pathto('', 1) }}" src="{{ pathto('_static/documentation_options.js', 1) }}"></script>
-  {%- for js in script_files %}
-    {{ js_tag(js) }}
-  {%- endfor %}
-  {%- endblock %}
-
-  {%- if favicon %}
-    <link rel="shortcut icon" href="{{ pathto('_static/' + favicon, 1) }}"/>
-  {%- endif %}
-
-  {%- endif %}
-
-  {%- block linktags %}
-  {%- if hasdoc('genindex') %}
-    <link rel="index" title="{{ _('Index') }}" href="{{ pathto('genindex') }}" />
-  {%- endif %}
-  {%- if hasdoc('search') %}
-    <link rel="search" title="{{ _('Search') }}" href="{{ pathto('search') }}" />
-  {%- endif %}
-
-    <link rel="top" title="{{ docstitle|e }}" href="{{ pathto(master_doc) }}" />
-  {%- if parents %}
-    <link rel="up" title="{{ parents[-1].title|striptags|e }}" href="{{ parents[-1].link|e }}" />
-  {%- endif %}
-  {%- if next %}
-    <link rel="next" title="{{ next.title|striptags|e }}" href="{{ next.link|e }}" />
-  {%- endif %}
-  {%- if prev %}
-    <link rel="prev" title="{{ prev.title|striptags|e }}" href="{{ prev.link|e }}" />
-  {%- endif %}
-  {%- if pageurl %}
-    <link rel="canonical" href="{{ pageurl|e }}" />
-  {%- endif %}
-  {% endblock %}
-
-  {%- block extrahead %} {% endblock %}
-  </head>
-  {%- block body_tag %}<body>{% endblock %}
+{% block content %}
     <div id="container">
       <header>
         <div class="logo-area">
@@ -87,13 +24,7 @@
       </header>
 
       <div id="content">
-        {%- if render_sidebar %}
-        <aside class="sphinxsidebar" role="navigation" aria-label="main navigation">
-          {%- for sidebartemplate in sidebars %}
-          {%- include sidebartemplate %}
-          {%- endfor %}
-        </aside>
-        {%- endif %}
+        {{ sidebar() }}
 
         <div id="main">
           <nav id="navigation">
@@ -106,7 +37,6 @@
             </ul>
           </nav>
 
-          {%- block content %}
           <main class="document">
             {%- block document %}
             <div class="body" role="main">
@@ -114,17 +44,17 @@
             </div>
             {%- endblock %}
           </main>
-          {%- endblock %}
 
-          {%- block footer %}
           <footer>
             {%- if show_copyright %}
               &copy; {{ copyright }}
             {%- endif %}
           </footer>
-          {%- endblock %}
         </div>
       </div>
     </div>
-  </body>
-</html>
+{% endblock %}
+
+{% block relbar1 %}{% endblock %}
+{% block relbar2 %}{% endblock %}
+{% block footer  %}{% endblock %}
