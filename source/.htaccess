@@ -1,5 +1,0 @@
-Header set Cache-Control "max-age=300"
-
-RewriteEngine on
-RewriteBase /
-RewriteRule "^gis(/.*)?" "/apidocs$1" [R=301,L]
