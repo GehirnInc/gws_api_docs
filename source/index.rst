@@ -14,7 +14,6 @@ Gehirn Web Services API Documentation
    :maxdepth: 2
    :caption: 目次
 
-   rs2plus/index
    dns/index
    mta/index
    edj/index
